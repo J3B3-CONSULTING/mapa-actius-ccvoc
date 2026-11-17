@@ -1865,7 +1865,8 @@ const sw = {
 };
 // Clau fixa (no és un filtre): elements del mapa que no són actius. Sempre visibles.
 const FONTS_MAPA = "Actius: bases de dades del Mapa d'Actius (CCVOC i J3B3). Polígons i sòl per desenvolupar: Directori de Polígons del Consell Comarcal del Vallès Occidental. Límits municipals i mapa base: Institut Cartogràfic i Geològic de Catalunya (ICGC). Xarxa ferroviària: © col·laboradors d'OpenStreetMap (ODbL).";
-const CREDITS = "Elaboració: J3B3 Econòmics, SL. Projecte subvencionat pel Servei Públic d'Ocupació de Catalunya en el marc dels Programes de suport al desenvolupament local.";
+// Menció de finançament: pendent que el Consell confirmi quina cal (el plec cita un programa del SOC i el Catàleg de la Diputació).
+const CREDITS = "Elaboració: J3B3 ECONÒMICS, SL.";
 function filesClau() {
   return [
     [sw.disc("#55534d", "#8a8983", .22), "Altres polígons del directori"],
@@ -2144,6 +2145,7 @@ function descarregaExcel() {
     ["Dades actualitzades", F && F.modificat ? dataCurta(F.modificat) : ""],
     ["Descarregat", dataCurta(new Date())],
     ["Coordenades", "Graus decimals, ETRS89 (equivalent a WGS84)"],
+    [], ["Fonts", FONTS_MAPA], ["Crèdits", CREDITS],
   ]);
   info["!cols"] = [{ wch: 20 }, { wch: 90 }];
   XLSX.utils.book_append_sheet(wb, info, "Informació");
