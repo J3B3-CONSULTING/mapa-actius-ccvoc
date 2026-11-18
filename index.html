@@ -890,6 +890,10 @@ window.CONFIG = {
   // usuària, 18/11/2026: el sòl per desenvolupar no es representa al mapa).
   tipusDirectoriExclosos: ["Sòl per desenvolupar"],
 
+  // Polígons del Directori que no corresponen a cap actiu de l'Excel: no es dibuixen
+  // (decisió de la usuària, 18/11/2026: el mapa mostra només el que hi ha als Excel).
+  mostraPoligonsDirectori: false,
+
   // ---------------------------------------------------------------------------
   // 5. MAPES DE FONS (el primer és el que surt per defecte)
   // ---------------------------------------------------------------------------
@@ -1733,7 +1737,7 @@ function pintaPunts(visibles) {
 // Polígons del directori del Consell que cap fila de l'Excel de l'àmbit no fa servir.
 function pintaDirectori() {
   capaDirectori.clearLayers();
-  if (!E.directori) return;
+  if (!E.directori || !C.mostraPoligonsDirectori) return;
   const usats = new Set(E.actius.filter(a => a.pol).map(a => a.pol.properties.id));
   window.POLIGONS.features.forEach(f => {
     const p = f.properties;
@@ -1874,7 +1878,6 @@ const FONTS_MAPA = "Actius: bases de dades del Mapa d'Actius (CCVOC i J3B3). Pol
 const CREDITS = "Elaboració: J3B3 ECONÒMICS, SL. Projecte vinculat al Programa de suport i acompanyament a la planificació estratègica de la convocatòria de l'any 2025 del Servei d'Ocupació de Catalunya i al Catàleg de Serveis 2026 de la Diputació de Barcelona.";
 function filesClau() {
   return [
-    [sw.disc("#55534d", "#8a8983", .22), "Altres polígons del directori"],
     [sw.linia(ESTIL_XARXA.rodalies), "Rodalies / Adif"],
     [sw.linia(ESTIL_XARXA.fgc), "FGC"],
     [sw.linia([{ color: "#3d3c38", weight: 1.4 }]), "Límit municipal"],
