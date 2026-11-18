@@ -886,6 +886,10 @@ window.CONFIG = {
 
   nomesAmbPoligon: [],
 
+  // Tipus del Directori de Polígons que no es dibuixen ni s'enllacen (decisió de la
+  // usuària, 18/11/2026: el sòl per desenvolupar no es representa al mapa).
+  tipusDirectoriExclosos: ["Sòl per desenvolupar"],
+
   // ---------------------------------------------------------------------------
   // 5. MAPES DE FONS (el primer és el que surt per defecte)
   // ---------------------------------------------------------------------------
@@ -1530,6 +1534,8 @@ const MOTS_BUITS = new Set(["poligon", "poligons", "industrial", "industrials", 
 const ROMANS = { I: "n1", II: "n2", III: "n3", IV: "n4", V: "n5" };
 const mots = s => new Set(plega(String(s || "").replace(/\b(IV|V|I{1,3})\b/g, m => " " + ROMANS[m] + " "))
   .replace(/[^a-z0-9]+/g, " ").split(" ").filter(w => (w.length > 1 || /^n\d$/.test(w)) && !MOTS_BUITS.has(w)));
+// Tipus del directori que no es representen (configuracio.js).
+window.POLIGONS.features = window.POLIGONS.features.filter(f => !(C.tipusDirectoriExclosos || []).includes(f.properties.tipus));
 const POLS = window.POLIGONS.features.map(f => ({ f, id: f.properties.id, mun: f.properties.municipi, m: mots(String(f.properties.nom).replace(/\([^)]*\)/g, " ")) }));
 // Casa si un nom conté l'altre i el de l'Excel no hi afegeix més de dues paraules
 // (així una fila com «361 naus disponibles a ...» no s'enganxa a cap polígon).
@@ -1869,7 +1875,6 @@ const CREDITS = "Elaboració: J3B3 ECONÒMICS, SL. Projecte vinculat al Programa
 function filesClau() {
   return [
     [sw.disc("#55534d", "#8a8983", .22), "Altres polígons del directori"],
-    [sw.disc("#8f6f17", "#d4ac3a", .22), "Sòl per desenvolupar (directori)"],
     [sw.linia(ESTIL_XARXA.rodalies), "Rodalies / Adif"],
     [sw.linia(ESTIL_XARXA.fgc), "FGC"],
     [sw.linia([{ color: "#3d3c38", weight: 1.4 }]), "Límit municipal"],
